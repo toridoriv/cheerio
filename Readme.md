@@ -1,7 +1,13 @@
 <h1 align="center">cheerio</h1>
 
-<h5 align="center">The fast, flexible, and elegant library for parsing and manipulating HTML and XML.</h5>
+<h5 align="center">Fork of the fast, flexible, and elegant library for parsing and manipulating HTML and XML.</h5>
+<br>
 
+> ⚠️ **Note:** This is only a fork. You can find the original library
+> [here](https://www.npmjs.com/package/cheerio). I've only updated this because
+> Cheerio has new features I want to use and they are not available on NPM yet.
+
+<br>
 <div align="center">
   <a href="https://github.com/cheeriojs/cheerio/actions/workflows/ci.yml">
     <img src="https://github.com/cheeriojs/cheerio/actions/workflows/ci.yml/badge.svg" alt="Build Status">
