@@ -3,12 +3,16 @@
 <h5 align="center">Fork of the fast, flexible, and elegant library for parsing and manipulating HTML and XML.</h5>
 <br>
 
-> ⚠️ **Note:** This is only a fork. You can find the original library
+> ⚠️ **Note 1:** This is only a fork. You can find the original library
 > [here](https://www.npmjs.com/package/cheerio). I've only updated this because
 > Cheerio has new features I want to use and they are not available on NPM yet.
 
-> ⚠️ **Note:** I'm leaving the link to "Fund this project" pointing to the
+> ⚠️ **Note 2:** I'm leaving the link to "Fund this project" pointing to the
 > original repository, since they are the ones doing all the real work 😊.
+
+> ⚠️ **Note 3:** I'll be handling the versioning independently from Cheerio, but
+> you can go to this project's repository to check the diff between my fork and
+> the original project.
 
 <br>
 <div align="center">
