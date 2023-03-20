@@ -7,6 +7,9 @@
 > [here](https://www.npmjs.com/package/cheerio). I've only updated this because
 > Cheerio has new features I want to use and they are not available on NPM yet.
 
+> ⚠️ **Note:** I'm leaving the link to "Fund this project" pointing to the
+> original repository, since they are the ones doing all the real work 😊.
+
 <br>
 <div align="center">
   <a href="https://github.com/cheeriojs/cheerio/actions/workflows/ci.yml">
