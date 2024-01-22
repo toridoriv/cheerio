@@ -19,6 +19,7 @@ interface Sponsor {
   url: string;
   type: 'ORGANIZATION' | 'INDIVIDUAL' | 'FUND';
   monthlyDonation: number;
+  totalDonations: number;
   source: 'github' | 'opencollective' | 'manual';
   tier: Tier | null;
 }
@@ -33,6 +34,7 @@ const tierSponsors: Record<Tier, Sponsor[]> = {
       url: 'https://tidelift.com/subscription/pkg/npm-cheerio',
       type: 'FUND',
       monthlyDonation: 0,
+      totalDonations: 0,
       source: 'manual',
       tier: 'headliner',
     },
@@ -43,6 +45,7 @@ const tierSponsors: Record<Tier, Sponsor[]> = {
       url: 'https://github.com/',
       type: 'ORGANIZATION',
       monthlyDonation: 0,
+      totalDonations: 0,
       source: 'manual',
       tier: 'headliner',
     },
@@ -53,7 +56,19 @@ const tierSponsors: Record<Tier, Sponsor[]> = {
       url: 'https://www.airbnb.com/',
       type: 'ORGANIZATION',
       monthlyDonation: 0,
+      totalDonations: 0,
       source: 'manual',
+      tier: 'headliner',
+    },
+    {
+      createdAt: '2024-01-02',
+      name: 'Alloy Automation',
+      image: 'https://github.com/alloy-automation.png',
+      url: 'https://runalloy.com/?utm_source=github&utm_medium=referral&utm_campaign=1224_cheerio',
+      type: 'ORGANIZATION',
+      monthlyDonation: 0,
+      totalDonations: 0,
+      source: 'opencollective',
       tier: 'headliner',
     },
   ],
@@ -141,7 +156,7 @@ async function fetchOpenCollectiveSponsors(): Promise<Sponsor[]> {
 
   const payload = await body.json();
 
-  return payload.data.account.orders.nodes.map((order: any) => {
+  return payload.data.account.orders.nodes.map((order: any): Sponsor => {
     const donation = order.amount.value * 100;
     const monthlyDonation =
       order.frequency === 'YEARLY' ? Math.round(donation / 12) : donation;
@@ -158,6 +173,13 @@ async function fetchOpenCollectiveSponsors(): Promise<Sponsor[]> {
       tier: getTierSlug(monthlyDonation / 100),
     };
   });
+}
+
+function getMonthsActive(date: string): number {
+  const now = new Date();
+  const then = new Date(date);
+  const months = (now.getFullYear() - then.getFullYear()) * 12;
+  return months - then.getMonth() + now.getMonth() + 1;
 }
 
 /**
@@ -202,12 +224,12 @@ async function fetchGitHubSponsors(): Promise<Sponsor[]> {
       headers: {
         authorization: `token ${CHEERIO_SPONSORS_GITHUB_TOKEN}`,
       },
-    }
+    },
   );
 
   // Return an array in the same format as Open Collective
   return organization.sponsorshipsAsMaintainer.nodes.map(
-    ({ sponsor, tier, createdAt }: any) => ({
+    ({ sponsor, tier, createdAt }: any): Sponsor => ({
       createdAt,
       name: sponsor.name,
       image: `${sponsor.avatarUrl}&s=128`,
@@ -215,10 +237,12 @@ async function fetchGitHubSponsors(): Promise<Sponsor[]> {
       type:
         // Workaround to get the type — fetch a field that only exists on users.
         sponsor.isViewer === undefined ? 'ORGANIZATION' : 'INDIVIDUAL',
-      monthlyDonation: tier.monthlyPriceInDollars * 100,
+      monthlyDonation: (tier?.monthlyPriceInDollars ?? 0) * 100,
+      totalDonations:
+        getMonthsActive(createdAt) * tier?.monthlyPriceInDollars * 100,
       source: 'github',
-      tier: getTierSlug(tier.monthlyPriceInDollars),
-    })
+      tier: getTierSlug(tier?.monthlyPriceInDollars ?? 0),
+    }),
   );
 }
 
@@ -249,7 +273,7 @@ const professionalToBackerOverrides = new Map([
 
 const sponsors = await fetchSponsors();
 
-// Remove sponsors that are already in the pre-propulated headliners
+// Remove sponsors that are already in the pre-populated headliners
 for (let i = 0; i < sponsors.length; i++) {
   if (
     tierSponsors.headliner.some((sponsor) => sponsor.url === sponsors[i].url)
@@ -285,26 +309,34 @@ for (const sponsor of sponsors) {
 
 for (const tier of Object.values(tierSponsors)) {
   // Sort order based on total donations
-  tier.sort((a: Sponsor, b: Sponsor) => b.monthlyDonation - a.monthlyDonation);
+  tier.sort((a: Sponsor, b: Sponsor) => b.totalDonations - a.totalDonations);
 
   // Set all montly donations to 0
   for (const sponsor of tier) {
     sponsor.monthlyDonation = 0;
+    sponsor.totalDonations = 0;
   }
 }
 
 // Write sponsors.json
 await fs.writeFile(JSON_PATH, JSON.stringify(tierSponsors, null, 2), 'utf8');
 
-// Merge professionals into backers for now
+// Prepend professionals to backers for now
 tierSponsors.backer.unshift(...tierSponsors.professional);
 
 let readme = await fs.readFile(README_PATH, 'utf8');
 
+const TIER_IMAGE_SIZES: Record<Tier, number> = {
+  headliner: 128,
+  sponsor: 64,
+  professional: 64,
+  backer: 48,
+};
+
 for (let sectionStartIndex = 0; ; ) {
   sectionStartIndex = readme.indexOf(
     SECTION_START_BEGINNING,
-    sectionStartIndex
+    sectionStartIndex,
   );
 
   if (sectionStartIndex < 0) break;
@@ -313,7 +345,7 @@ for (let sectionStartIndex = 0; ; ) {
 
   const sectionStartEndIndex = readme.indexOf(
     SECTION_START_END,
-    sectionStartIndex
+    sectionStartIndex,
   );
   const sectionName = readme
     .slice(sectionStartIndex, sectionStartEndIndex)
@@ -326,18 +358,21 @@ for (let sectionStartIndex = 0; ; ) {
   readme = `${readme.slice(0, sectionContentStart)}\n\n${tierSponsors[
     sectionName
   ]
-    .map(
-      (s: Sponsor) =>
-        // Display each sponsor's image in the README.
-        `<a href="${s.url}" target="_blank" rel="noopener noreferrer">
-            <img height="128px" width="128px" src="${imgix.buildURL(s.image, {
-              w: 128,
-              h: 128,
-              fit: 'fillmax',
-              fill: 'solid',
-            })}" title="${s.name}" alt="${s.name}"></img>
-          </a>`
-    )
+    .map((s: Sponsor) => {
+      const size = TIER_IMAGE_SIZES[s.tier ?? sectionName];
+      // Display each sponsor's image in the README.
+      return `<a href="${s.url}" target="_blank" rel="noopener noreferrer">
+            <img height="${size}px" width="${size}px" src="${imgix.buildURL(
+              s.image,
+              {
+                w: size,
+                h: size,
+                fit: 'fillmax',
+                fill: 'solid',
+              },
+            )}" title="${s.name}" alt="${s.name}"></img>
+          </a>`;
+    })
     .join('\n')}\n\n${readme.slice(sectionEndIndex)}`;
 }
 

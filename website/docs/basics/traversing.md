@@ -19,7 +19,7 @@ Cheerio.
 
 :::tip
 
-This guide is intened to give you an overview of the various methods available
+This guide is intended to give you an overview of the various methods available
 in Cheerio for traversing and filtering elements. For a more detailed reference
 of these methods, see the [API documentation](/docs/api/classes/Cheerio).
 
@@ -45,7 +45,7 @@ const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const listItems = $('ul').find('li');
@@ -66,7 +66,7 @@ const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const listItems = $('ul').children('li');
@@ -86,7 +86,7 @@ element:
 const $ = cheerio.load(
   `<div>
     Text <p>Paragraph</p>
-  </div>`
+  </div>`,
 );
 
 const contents = $('div').contents();
@@ -102,7 +102,7 @@ elements that are ancestors of the current selection.
 
 The [`parent` method](/docs/api/classes/Cheerio#parent) allows you to select the
 parent element of a selection. It returns a new selection containing the parent
-element of the current selection.
+element of each element in the current selection.
 
 Here's an example of using `parent` to select the parent `<ul>` element of a
 `<li>` element:
@@ -111,7 +111,7 @@ Here's an example of using `parent` to select the parent `<ul>` element of a
 const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
-  </ul>`
+  </ul>`,
 );
 
 const list = $('li').parent();
@@ -138,14 +138,14 @@ const $ = cheerio.load(
     <ul>
       <li>Item 1</li>
     </ul>
-  </div>`
+  </div>`,
 );
 
 const ancestors = $('li').parents();
 const ancestorsUntil = $('li').parentsUntil('div');
 
 render(
-  `Ancestor count (also includes <body> and <html>): ${ancestors.length} | Ancestor count (until <div>): ${ancestorsUntil.length}`
+  `Ancestor count (also includes <body> and <html>): ${ancestors.length} | Ancestor count (until <div>): ${ancestorsUntil.length}`,
 );
 ```
 
@@ -165,7 +165,7 @@ const $ = cheerio.load(
     <ul>
       <li>Item 1</li>
     </ul>
-  </div>`
+  </div>`,
 );
 
 const list = $('li').closest('ul');
@@ -181,11 +181,12 @@ selecting elements that are siblings of the current selection.
 
 The [`next` method](/docs/api/classes/Cheerio#next) allows you to select the
 next sibling element of a selection. It returns a new selection containing the
-next sibling element.
+next sibling element (if there is one). If the given selection contains multiple
+elements, `next` includes the next sibling for each one.
 
 The [`prev` method](/docs/api/classes/Cheerio#prev) is similar to `next`, but
 allows you to select the previous sibling element. It returns a new selection
-containing the previous sibling element.
+containing the previous sibling element for each element in the given selection.
 
 Here's an example of using `next` and `prev` to select sibling elements of a
 `<li>` element:
@@ -195,7 +196,7 @@ const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const nextItem = $('li:first').next();
@@ -208,15 +209,16 @@ render(`Next: ${nextItem.text()} | Prev: ${prevItem.text()}`);
 
 The [`nextAll` method](/docs/api/classes/Cheerio#nextall) allows you to select
 all siblings after the current element. It returns a new selection containing
-all sibling elements after the current element.
+all sibling elements after each element in the current selection.
 
 The [`prevAll` method](/docs/api/classes/Cheerio#prevall) is similar to nextAll,
 but allows you to select all siblings before the current element. It returns a
-new selection containing all sibling elements before the current element.
+new selection containing all sibling elements before each element in the current
+selection.
 
 The [`siblings` method](/docs/api/classes/Cheerio#siblings) allows you to select
 all siblings of a selection. It returns a new selection containing all sibling
-elements of the current element.
+elements of each element in the current selection.
 
 Here's an example of using `nextAll`, `prevAll`, and `siblings` to select
 sibling elements of a `<li>` element:
@@ -227,7 +229,7 @@ const $ = cheerio.load(
     <li>[1]</li>
     <li>[2]</li>
     <li>[3]</li>
-  </ul>`
+  </ul>`,
 );
 
 const nextAll = $('li:first').nextAll();
@@ -235,7 +237,7 @@ const prevAll = $('li:last').prevAll();
 const siblings = $('li:eq(1)').siblings();
 
 render(
-  `Next All: ${nextAll.text()} | Prev All: ${prevAll.text()} | Siblings: ${siblings.text()}`
+  `Next All: ${nextAll.text()} | Prev All: ${prevAll.text()} | Siblings: ${siblings.text()}`,
 );
 ```
 
@@ -262,7 +264,7 @@ const $ = cheerio.load(
     <li>Item 1</li>
     <li>Item 2</li>
     <li>Item 3</li>
-  </ul>`
+  </ul>`,
 );
 
 const nextUntil = $('li:first').nextUntil('li:last-child');
@@ -297,7 +299,7 @@ const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const secondItem = $('li').eq(1);
@@ -323,14 +325,14 @@ const $ = cheerio.load(
   `<ul>
     <li class="item">Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const matchingItems = $('li').filter('.item');
 const nonMatchingItems = $('li').not('.item');
 
 render(
-  `Matching: ${matchingItems.text()} | Non-matching: ${nonMatchingItems.text()}`
+  `Matching: ${matchingItems.text()} | Non-matching: ${nonMatchingItems.text()}`,
 );
 ```
 
@@ -351,7 +353,7 @@ const $ = cheerio.load(
     <li>
       <strong>Item 2</strong>
     </li>
-  </ul>`
+  </ul>`,
 );
 
 const matchingItems = $('li').has('strong');
@@ -376,7 +378,7 @@ const $ = cheerio.load(
   `<ul>
     <li>Item 1</li>
     <li>Item 2</li>
-  </ul>`
+  </ul>`,
 );
 
 const firstItem = $('li').first();

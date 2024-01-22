@@ -7,6 +7,7 @@
       "url": "https://tidelift.com/subscription/pkg/npm-cheerio",
       "type": "FUND",
       "monthlyDonation": 0,
+      "totalDonations": 0,
       "source": "manual",
       "tier": "headliner"
     },
@@ -17,6 +18,7 @@
       "url": "https://github.com/",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
+      "totalDonations": 0,
       "source": "manual",
       "tier": "headliner"
     },
@@ -27,7 +29,19 @@
       "url": "https://www.airbnb.com/",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
+      "totalDonations": 0,
       "source": "manual",
+      "tier": "headliner"
+    },
+    {
+      "createdAt": "2024-01-02",
+      "name": "Alloy Automation",
+      "image": "https://github.com/alloy-automation.png",
+      "url": "https://runalloy.com/?utm_source=github&utm_medium=referral&utm_campaign=1224_cheerio",
+      "type": "ORGANIZATION",
+      "monthlyDonation": 0,
+      "totalDonations": 0,
+      "source": "opencollective",
       "tier": "headliner"
     }
   ],
@@ -39,7 +53,7 @@
       "image": "https://images.opencollective.com/cryptocasinos/99b168e/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 210000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     },
@@ -50,18 +64,8 @@
       "image": "https://images.opencollective.com/casinoonlineaamscom/c59b0fd/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 210000,
+      "totalDonations": 0,
       "source": "opencollective",
-      "tier": "sponsor"
-    },
-    {
-      "createdAt": "2021-10-22T13:47:30Z",
-      "name": "Apify",
-      "image": "https://avatars.githubusercontent.com/u/24586296?v=4&s=128",
-      "url": "https://apify.com/",
-      "type": "ORGANIZATION",
-      "monthlyDonation": 0,
-      "source": "github",
       "tier": "sponsor"
     },
     {
@@ -71,7 +75,7 @@
       "image": "https://images.opencollective.com/freebets/e21c41b/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 140000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     },
@@ -82,18 +86,7 @@
       "image": "https://images.opencollective.com/casino-utan-svensk-licens3/f7e9357/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 110000,
-      "source": "opencollective",
-      "tier": "sponsor"
-    },
-    {
-      "createdAt": "2022-05-26T17:13:28.761Z",
-      "name": "Spela på Casino utan svensk licens",
-      "url": "https://starwarscasinos.com/",
-      "image": "https://images.opencollective.com/casino-utan-svensk-licens1/f3487ff/logo.png",
-      "type": "ORGANIZATION",
-      "monthlyDonation": 0,
-      "totalDonations": 100000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     },
@@ -104,18 +97,7 @@
       "image": "https://images.opencollective.com/zenrows/3199d4b/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 70000,
-      "source": "opencollective",
-      "tier": "sponsor"
-    },
-    {
-      "createdAt": "2022-10-05T08:00:56.340Z",
-      "name": "Scommessesportivemania.com",
-      "url": "https://scommessesportivemania.com/",
-      "image": "https://images.opencollective.com/scommessesportivemania-com/e6941a3/avatar.png",
-      "type": "INDIVIDUAL",
-      "monthlyDonation": 0,
-      "totalDonations": 60000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     },
@@ -126,18 +108,62 @@
       "image": "https://images.opencollective.com/casinosicuri-info/5dc691c/avatar.png",
       "type": "INDIVIDUAL",
       "monthlyDonation": 0,
-      "totalDonations": 50000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     },
     {
-      "createdAt": "2022-12-26T08:40:55.887Z",
-      "name": "mobilcasinon",
-      "url": "https://mobileslots.se/",
-      "image": "https://images.opencollective.com/mobilcasinon-sverige/3f05426/logo.png",
+      "createdAt": "2023-06-15T13:34:53.677Z",
+      "name": "Игровые автоматы",
+      "url": "https://slotoking.ua/games/",
+      "image": "https://images.opencollective.com/igrovye-avtomaty-ua/96bfde3/logo.png",
       "type": "ORGANIZATION",
       "monthlyDonation": 0,
-      "totalDonations": 30000,
+      "totalDonations": 0,
+      "source": "opencollective",
+      "tier": "sponsor"
+    },
+    {
+      "createdAt": "2023-12-05T16:44:08.370Z",
+      "name": "OnlineCasinosSpelen",
+      "url": "https://onlinecasinosspelen.com",
+      "image": "https://images.opencollective.com/onlinecasinosspelen/4ce3830/logo.png",
+      "type": "ORGANIZATION",
+      "monthlyDonation": 0,
+      "totalDonations": 0,
+      "source": "opencollective",
+      "tier": "sponsor"
+    },
+    {
+      "createdAt": "2023-12-07T14:06:03.013Z",
+      "name": "CasinoZonderRegistratie.net",
+      "url": "https://casinoZonderregistratie.net/",
+      "image": "https://images.opencollective.com/czrnet/24e6252/logo.png",
+      "type": "ORGANIZATION",
+      "monthlyDonation": 0,
+      "totalDonations": 0,
+      "source": "opencollective",
+      "tier": "sponsor"
+    },
+    {
+      "createdAt": "2023-12-07T14:07:39.203Z",
+      "name": "Nieuwe-Casinos.net",
+      "url": "https://Nieuwe-Casinos.net",
+      "image": "https://images.opencollective.com/nieuwecasinos/ee150d6/logo.png",
+      "type": "ORGANIZATION",
+      "monthlyDonation": 0,
+      "totalDonations": 0,
+      "source": "opencollective",
+      "tier": "sponsor"
+    },
+    {
+      "createdAt": "2024-01-12T15:41:17.058Z",
+      "name": "Vedonlyontiyhtiot.com",
+      "url": "https://vedonlyontiyhtiot.com/",
+      "image": "https://images.opencollective.com/vedonlyontiyhtiot-com/avatar.png",
+      "type": "INDIVIDUAL",
+      "monthlyDonation": 0,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "sponsor"
     }
@@ -150,7 +176,7 @@
       "image": "https://images.opencollective.com/kafidoff-vasy/d7ff85c/avatar.png",
       "type": "INDIVIDUAL",
       "monthlyDonation": 0,
-      "totalDonations": 35000,
+      "totalDonations": 0,
       "source": "opencollective",
       "tier": "professional"
     }
@@ -160,31 +186,11 @@
       "createdAt": "2020-08-31T07:40:29.442Z",
       "name": "Espen Klem",
       "url": "https://medium.com/norch",
-      "image": "https://images.opencollective.com/espenklem/6075b19/avatar.png",
+      "image": "https://images.opencollective.com/espenklem/7e8cd40/avatar.png",
       "type": "INDIVIDUAL",
       "monthlyDonation": 0,
-      "totalDonations": 43000,
+      "totalDonations": 0,
       "source": "opencollective",
-      "tier": "backer"
-    },
-    {
-      "createdAt": "2021-12-31T09:44:57Z",
-      "name": "Jarrod Davis",
-      "image": "https://avatars.githubusercontent.com/u/235875?v=4&s=128",
-      "url": "https://jarrodldavis.com",
-      "type": "INDIVIDUAL",
-      "monthlyDonation": 0,
-      "source": "github",
-      "tier": "backer"
-    },
-    {
-      "createdAt": "2021-08-23T13:04:31Z",
-      "name": "Charles Severance",
-      "image": "https://avatars.githubusercontent.com/u/1197222?u=d6dc85c064736ab851c6d9e3318dcdd1be00fb2c&v=4&s=128",
-      "url": "http://www.dr-chuck.com/",
-      "type": "INDIVIDUAL",
-      "monthlyDonation": 0,
-      "source": "github",
       "tier": "backer"
     }
   ]

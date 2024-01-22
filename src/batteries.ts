@@ -12,9 +12,7 @@ import { load } from './index.js';
 import { flattenOptions, type InternalOptions } from './options.js';
 import { adapter as htmlparser2Adapter } from 'parse5-htmlparser2-tree-adapter';
 
-// eslint-disable-next-line n/file-extension-in-import
-import { WritableStream as Htmlparser2Stream } from 'htmlparser2/lib/WritableStream';
-import DomHandler from 'domhandler';
+import * as htmlparser2 from 'htmlparser2';
 import { ParserStream as Parse5Stream } from 'parse5-parser-stream';
 import {
   decodeBuffer,
@@ -23,7 +21,7 @@ import {
 } from 'encoding-sniffer';
 import * as undici from 'undici';
 import MIMEType from 'whatwg-mimetype';
-import { type Writable, finished } from 'node:stream';
+import { Writable, finished } from 'node:stream';
 
 /**
  * Sniffs the encoding of a buffer, then creates a querying function bound to a
@@ -38,13 +36,14 @@ import { type Writable, finished } from 'node:stream';
  * const buffer = fs.readFileSync('index.html');
  * const $ = cheerio.fromBuffer(buffer);
  * ```
+ *
  * @param buffer - The buffer to sniff the encoding of.
  * @param options - The options to pass to Cheerio.
  * @returns The loaded document.
  */
 export function loadBuffer(
   buffer: Buffer,
-  options: DecodeStreamOptions = {}
+  options: DecodeStreamOptions = {},
 ): CheerioAPI {
   const opts = flattenOptions(options);
   const str = decodeBuffer(buffer, {
@@ -57,15 +56,29 @@ export function loadBuffer(
 
 function _stringStream(
   options: InternalOptions | undefined,
-  cb: (err: Error | null | undefined, $: CheerioAPI) => void
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
 ): Writable {
   if (options?._useHtmlParser2) {
-    const handler: DomHandler = new DomHandler(
-      (err) => cb(err, load(handler.root)),
-      options
+    const parser = htmlparser2.createDocumentStream(
+      (err, document) => cb(err, load(document)),
+      options,
     );
 
-    return new Htmlparser2Stream(handler, options);
+    return new Writable({
+      decodeStrings: false,
+      write(chunk, _encoding, callback) {
+        if (typeof chunk !== 'string') {
+          throw new TypeError('Expected a string');
+        }
+
+        parser.write(chunk);
+        callback();
+      },
+      final(callback) {
+        parser.end();
+        callback();
+      },
+    });
   }
 
   options ??= {};
@@ -105,16 +118,17 @@ function _stringStream(
  * });
  *
  * fs.createReadStream('my-document.html', { encoding: 'utf8' }).pipe(
- *   writeStream
+ *   writeStream,
  * );
  * ```
+ *
  * @param options - The options to pass to Cheerio.
  * @param cb - The callback to call when the stream is finished.
  * @returns The writable stream.
  */
 export function stringStream(
   options: CheerioOptions,
-  cb: (err: Error | null | undefined, $: CheerioAPI) => void
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
 ): Writable {
   return _stringStream(flattenOptions(options), cb);
 }
@@ -136,7 +150,7 @@ export interface DecodeStreamOptions extends CheerioOptions {
  */
 export function decodeStream(
   options: DecodeStreamOptions,
-  cb: (err: Error | null | undefined, $: CheerioAPI) => void
+  cb: (err: Error | null | undefined, $: CheerioAPI) => void,
 ): Writable {
   const { encoding = {}, ...cheerioOptions } = options;
   const opts = flattenOptions(cheerioOptions);
@@ -184,13 +198,14 @@ const defaultRequestOptions: UndiciStreamOptions = {
  *
  * const $ = await cheerio.fromURL('https://example.com');
  * ```
+ *
  * @param url - The URL to load the document from.
  * @param options - The options to pass to Cheerio.
  * @returns The loaded document.
  */
 export async function fromURL(
   url: string | URL,
-  options: CheerioRequestOptions = {}
+  options: CheerioRequestOptions = {},
 ): Promise<CheerioAPI> {
   const {
     requestOptions = defaultRequestOptions,
@@ -206,12 +221,12 @@ export async function fromURL(
     undiciStream = undici.stream(url, requestOptions, (res) => {
       const contentType = res.headers['content-type'] ?? 'text/html';
       const mimeType = new MIMEType(
-        Array.isArray(contentType) ? contentType[0] : contentType
+        Array.isArray(contentType) ? contentType[0] : contentType,
       );
 
       if (!mimeType.isHTML() && !mimeType.isXML()) {
         throw new RangeError(
-          `The content-type "${contentType}" is neither HTML nor XML.`
+          `The content-type "${contentType}" is neither HTML nor XML.`,
         );
       }
 

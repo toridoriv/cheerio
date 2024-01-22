@@ -47,9 +47,11 @@ Here's an example of how to use the load method:
 ```js
 import * as cheerio from 'cheerio';
 
-const $ = cheerio.load('<html><body><h1>Hello, world!</h1></body></html>');
+const $ = cheerio.load(
+  '<html><head><title>Hello, world!</title></head></html>',
+);
 
-console.log($('title').text());
+console.log($('h1').text());
 // Output: Hello, world!
 ```
 

@@ -1,7 +1,7 @@
 // @ts-check
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+// @ts-ignore
+const { themes } = require('prism-react-renderer');
 
 // eslint-disable-next-line n/no-unpublished-require
 const packageJson = require('../package.json');
@@ -13,7 +13,7 @@ const config = {
   url: packageJson.homepage,
   baseUrl: '/',
   trailingSlash: false,
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
@@ -78,7 +78,7 @@ const config = {
             label: 'Tutorial',
           },
           {
-            to: 'docs/api/',
+            to: 'docs/api',
             label: 'API',
             position: 'left',
           },
@@ -102,7 +102,7 @@ const config = {
               },
               {
                 label: 'API',
-                to: 'docs/api/',
+                to: 'docs/api',
               },
             ],
           },
@@ -148,13 +148,13 @@ const config = {
         },
       ],
       prism: {
-        theme: lightCodeTheme,
-        darkTheme: darkCodeTheme,
+        theme: themes.github,
+        darkTheme: themes.dracula,
       },
       algolia: {
         appId: 'NRR2XU4QSP',
         apiKey: '40f62d369f1e54db758fbc13076de406',
-        indexName: 'cheerio',
+        indexName: 'crawler_cheerio',
       },
     }),
 
@@ -221,7 +221,7 @@ const config = {
                 'xml',
               ].map((name) => `/functions/${name}.html`),
             ],
-            to: `/docs/api/`,
+            to: '/docs/api',
           },
         ],
       }),
@@ -233,16 +233,10 @@ const config = {
         // TypeDoc options
         entryPoints: ['../src/batteries.ts'],
         tsconfig: '../tsconfig.json',
-        plugin: ['./typedoc/typedoc-plugin-class-fns-to-methods.cjs'],
         readme: 'none',
         excludePrivate: true,
 
         externalSymbolLinkMappings: {
-          typescript: {
-            Promise:
-              'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise',
-            URL: 'https://developer.mozilla.org/en-US/docs/Web/API/URL',
-          },
           domhandler: {
             Document: 'https://domhandler.js.org/classes/Document.html',
             Element: 'https://domhandler.js.org/classes/Element.html',
