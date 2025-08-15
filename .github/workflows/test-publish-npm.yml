@@ -1,11 +1,9 @@
 name: Test Publish to NPM
 
 on:
-  push:
-    branches:
-      - main
+  create:
     tags:
-      - '*'
+      - '**'
 
 permissions:
   contents: read
